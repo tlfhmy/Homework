@@ -51,6 +51,7 @@ public:
     }
 
     double at(int i, int j) {
+        return a[i*n + j];
     }
 
     Matrix & operator* (const double &z) {
@@ -69,6 +70,7 @@ public:
     Matrix & operator+ (const Matrix & z) {
         if(m != z.m || n != z.n){
             std::cout << "They are of diffrent form! Can not plus." << std::endl;
+            return NULL;
         }
         esle{
             Matrix tm;
