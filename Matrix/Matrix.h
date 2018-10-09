@@ -1,6 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <iostream>
+
 class Matrix{
 private:
     int m;
@@ -48,7 +50,39 @@ public:
         return n;
     }
 
-    
+    double at(int i, int j) {
+    }
+
+    Matrix & operator* (const double &z) {
+        Matrix tm;
+        tm.m = m;
+        tm.n = n;
+        tm.a = new double[m*n];
+
+        for(int i = 0; i < m*n; i++){
+            tm.a[i] = a[i] * z;
+        }
+
+        return tm;
+    }
+
+    Matrix & operator+ (const Matrix & z) {
+        if(m != z.m || n != z.n){
+            std::cout << "They are of diffrent form! Can not plus." << std::endl;
+        }
+        esle{
+            Matrix tm;
+            tm.m = m;
+            tm.n = n;
+            tm.a = new double [m * n];
+
+            for(int i = 0; i < m*n; i++) {
+                tm.a[i] = a[i] + z.a[i];
+            }
+        }
+
+        return tm;
+    }
 };
 
 
