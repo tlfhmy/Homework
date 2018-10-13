@@ -1,8 +1,6 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-#include <iostream>
-
 class Matrix{
 private:
     int m;
@@ -50,6 +48,7 @@ public:
         return n;
     }
 
+<<<<<<< HEAD
     double at(int i, int j) {
         return a[i*n + j];
     }
@@ -85,6 +84,9 @@ public:
 
         return tm;
     }
+=======
+    
+>>>>>>> parent of 0319cc8... Make some operators function
 };
 
 
