@@ -71,7 +71,7 @@ public:
             std::cout << "They are of diffrent form! Can not plus." << std::endl;
             return NULL;
         }
-        esle{
+        else{
             Matrix tm;
             tm.m = m;
             tm.n = n;
