@@ -1,94 +1,110 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-class Matrix{
-private:
+#include <iostream>
+class Matrix
+{
+  private:
     int m;
     int n;
     double *a;
-public:
-    Matrix(): m(1), n(1), a(new double[1]) {}
 
-    Matrix(int r, int c): m(r), n(c), a(new double[m*n]) {
-        for(int i = 0; i < m*n; i++){
+  public:
+    Matrix() : m(1), n(1), a(new double[1]) {}
+
+    Matrix(int r, int c) : m(r), n(c), a(new double[m * n])
+    {
+        for (int i = 0; i < m * n; i++)
+        {
             a[i] = 0.;
         }
     }
 
-    Matrix(const Matrix &b): m(b.m), n(b.n), a(new double[m*n]) {
-        for(int i = 0; i < m*n; i++) {
+    Matrix(const Matrix &b) : m(b.m), n(b.n), a(new double[m * n])
+    {
+        for (int i = 0; i < m * n; i++)
+        {
             a[i] = b.a[i];
         }
     }
 
-    ~Matrix(){
+    ~Matrix()
+    {
         delete[] a;
     }
 
-    Matrix & operator= (const Matrix &b) {
-        if(m*n < b.m * b.n) {
+    Matrix &operator=(const Matrix &b)
+    {
+        if (m * n < b.m * b.n)
+        {
             delete[] a;
-            a = new double [b.m * b.n];
+            a = new double[b.m * b.n];
         }
 
         m = b.m;
         n = b.n;
 
-        for(int i = 0; i < m*n; i++){
+        for (int i = 0; i < m * n; i++)
+        {
             a[i] = b.a[i];
         }
         return *this;
     }
 
-    int rows() const {
+    int rows() const
+    {
         return m;
     }
 
-    int columns() const {
+    int columns() const
+    {
         return n;
     }
 
-<<<<<<< HEAD
-    double at(int i, int j) {
-        return a[i*n + j];
+    bool empty() const
+    {
+        return (m == 0 || n == 0);
     }
 
-    Matrix & operator* (const double &z) {
-        Matrix tm;
-        tm.m = m;
-        tm.n = n;
-        tm.a = new double[m*n];
-
-        for(int i = 0; i < m*n; i++){
-            tm.a[i] = a[i] * z;
+    double at(int i, int j) const
+    {
+        if(i < 0 || j < 0 || i > m || j > n)
+        {
+            //throw std::range_error("Element which you want to access does NOT EXIST!!");
         }
+        return a[i * n + j];
+    };
 
-        return tm;
+    void input(const double *el)
+    {
+        for(int i = 0; i < m*n; i++)
+        {
+            a[i] = el[i];
+        }
     }
 
-    Matrix & operator+ (const Matrix & z) {
-        if(m != z.m || n != z.n){
-            std::cout << "They are of diffrent form! Can not plus." << std::endl;
-            return NULL;
-        }
-        else{
-            Matrix tm;
-            tm.m = m;
-            tm.n = n;
-            tm.a = new double [m * n];
-
-            for(int i = 0; i < m*n; i++) {
-                tm.a[i] = a[i] + z.a[i];
+    void display() const
+    {
+        for(int i = 0; i < m; i++)
+        {
+            for(int j = 0; j < n; j++)
+            {
+                std::cout << "\t" << at(i,j) << " ";
             }
+            std::cout << std::endl;
         }
-
-        return tm;
     }
-=======
-    
->>>>>>> parent of 0319cc8... Make some operators function
+
+    Matrix &operator*(const double &z) const;
+    Matrix &operator*(const Matrix &rm) const;
+
+    Matrix &operator+(const Matrix &z) const;
+    Matrix &operator-(const Matrix &z) const;
+
+    Matrix Transp() const;
+    Matrix &Reverse(const Matrix &tm) const;
+
+    Matrix TriangMat() const;
+    double Det(const Matrix &tm);
 };
-
-
-
 #endif
