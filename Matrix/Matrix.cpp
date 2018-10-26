@@ -8,7 +8,7 @@ Matrix Matrix::Transp() const
     {
         for (int j = 0; j < z.n; j++)
         {
-            z.a[i * z.n + j] = this -> at(j, i);
+            z.a[i * z.n + j] = this->at(j, i);
         }
     }
     return z;
@@ -122,7 +122,7 @@ Matrix Matrix::TriangMat() const
         {
             for (int r = 0; r < m; r++)
             {
-                tm.a[r*n + i] += tm.at(r, ftnz);
+                tm.a[r * n + i] += tm.at(r, ftnz);
             }
         }
         else if (fst_0)
@@ -130,24 +130,39 @@ Matrix Matrix::TriangMat() const
             continue;
         }
         double basor(0.0);
-        basor = tm.at(i,i);
-        for (int j = i+1; j < n; j++)
+        basor = tm.at(i, i);
+        for (int j = i + 1; j < n; j++)
         {
             double basdy(0.0);
-            basdy = tm.at(j,i);
+            basdy = tm.at(j, i);
             basdy = basdy / basor;
-            for(int k = i; k < m; k++)
+            for (int k = i; k < m; k++)
             {
-                tm.a[j*n + k] -= basdy * tm.at(i,k);
+                tm.a[j * n + k] -= basdy * tm.at(i, k);
             }
         }
     }
     return tm;
 }
 
-Matrix &Matrix::Reverse(const Matrix &z) const
+Matrix Matrix::Reverse() const
 {
-    Matrix tm(m, n);
+    Matrix tm = *this;
+    Matrix unit(m,n);
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (i == j)
+            {
+                unit.a[i * n + j] = 1.;
+            }
+            else
+            {
+                unit.a[i * n + j] = 0.;
+            }
+        }
+    }
     if (m != n)
     {
         throw std::domain_error("Just able to find Reverse Matrix from Square Matrix!");
@@ -158,6 +173,72 @@ Matrix &Matrix::Reverse(const Matrix &z) const
     }
     else
     {
+        for (int i = 0; i < m; i++)
+        {
+            bool fst_0 = false;
+            int ftnz = -1;
+            if (tm.at(i, i) == 0.)
+            {
+                fst_0 = true;
+            }
+            if (fst_0)
+            {
+                for (int r = 0; r < n; r++)
+                {
+                    if (tm.at(i, r) != 0)
+                    {
+                        ftnz = r;
+                        break;
+                    }
+                }
+            }
+            if (ftnz != -1)
+            {
+                for (int r = 0; r < m; r++)
+                {
+                    tm.a[r * n + i] += tm.at(r, ftnz);
+                    unit.a[r * n + i] += unit.at(r, ftnz);
+                }
+            }
+            else if (fst_0)
+            {
+                continue;
+            }
+            double basor(0.0);
+            basor = tm.at(i, i);
+            for (int j = i + 1; j < n; j++)
+            {
+                double basdy(0.0);
+                basdy = tm.at(j, i);
+                basdy = basdy / basor;
+                for (int k = 0; k < m; k++)
+                {
+                    tm.a[j * n + k] -= basdy * tm.at(i, k);
+                    unit.a[j * n + k] -= basdy * unit.at(i, k);
+                }
+            }
+        }
+        for(int j = n-1; j > 0; j--)
+        {
+            for(int i = 0; i < j; i++)
+            {
+                double el = tm.at(i,j)/tm.at(j,j);
+                for(int k = 0; k<m; k++)
+                {
+                    tm.a[i*n+k] -= el*tm.at(j,k);
+                    unit.a[i*n+k] -= el*unit.at(j,k);
+                }
+            }
+        }
+        for(int i = 0; i < m; i++)
+        {
+            double el = tm.at(i,i);
+            for(int j = 0; j < n; j++)
+            {
+                tm.a[i*n+j] /= el;
+                unit.a[i*n+j] /= el;
+            }
+        }
     }
-    return tm;
+    return unit;
 }

@@ -22,6 +22,7 @@ int main()
 
     Matrix tst(m,n);
     tst.input(p);
+    Matrix sm = tst;
 
     cout << "Now, we display the original matrix." << endl;
     tst.display();
@@ -33,6 +34,17 @@ int main()
 
     cout << "TrangleMat of this Matrix." << endl;
     tst.TriangMat().display();
+
+    cout << "Reverse of this Matrix." << endl;
+    tst.Reverse().display();
+
+    /*cout << "Half" << endl;
+    tst.HalfReverse(sm).display();*/
+
+    cout << "Test reverse of this Matrix." << endl;
+    Matrix pro(m,n);
+    pro = tst * (tst.Reverse());
+    pro.display();
     
     return 0;
 }

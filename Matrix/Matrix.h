@@ -2,6 +2,8 @@
 #define MATRIX_H
 
 #include <iostream>
+#include <cmath>
+#define Esp 10e-8
 class Matrix
 {
   private:
@@ -68,7 +70,7 @@ class Matrix
 
     double at(int i, int j) const
     {
-        if(i < 0 || j < 0 || i > m || j > n)
+        if (i < 0 || j < 0 || i > m || j > n)
         {
             //throw std::range_error("Element which you want to access does NOT EXIST!!");
         }
@@ -77,7 +79,7 @@ class Matrix
 
     void input(const double *el)
     {
-        for(int i = 0; i < m*n; i++)
+        for (int i = 0; i < m * n; i++)
         {
             a[i] = el[i];
         }
@@ -85,11 +87,19 @@ class Matrix
 
     void display() const
     {
-        for(int i = 0; i < m; i++)
+        for (int i = 0; i < m; i++)
         {
-            for(int j = 0; j < n; j++)
+            for (int j = 0; j < n; j++)
             {
-                std::cout << "\t" << at(i,j) << " ";
+                double tmp = at(i, j);
+                if (fabs(tmp) < Esp)
+                {
+                    std::cout << "\t" << 0.0 << " ";
+                }
+                else
+                {
+                    std::cout <<"\t" << tmp << " ";
+                }
             }
             std::cout << std::endl;
         }
@@ -102,7 +112,7 @@ class Matrix
     Matrix &operator-(const Matrix &z) const;
 
     Matrix Transp() const;
-    Matrix &Reverse(const Matrix &tm) const;
+    Matrix Reverse() const;
 
     Matrix TriangMat() const;
     double Det(const Matrix &tm);
