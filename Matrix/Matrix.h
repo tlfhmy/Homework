@@ -115,6 +115,6 @@ class Matrix
     Matrix Inverse() const;
 
     Matrix TriangMat() const;
-    double Det(const Matrix &tm);
+    double Det() const;
 };
 #endif

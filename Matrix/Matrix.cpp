@@ -145,6 +145,23 @@ Matrix Matrix::TriangMat() const
     return tm;
 }
 
+double Matrix::Det() const
+{
+    Matrix tmp = this->TriangMat();
+    double del(1.0);
+    if(m != n)
+    {
+        throw std::domain_error("Undefined Determinat in unsquare Matrix!");
+    }
+    else{
+        for(int i = 0; i < m; i++)
+        {
+            del *= tmp.at(i,i);
+        }
+    }
+    return del;
+}
+
 Matrix Matrix::Inverse() const
 {
     Matrix tm = *this;

@@ -124,7 +124,7 @@ int main()
                     break;
                 case 'c':
                     menu2();
-                    cout << "This function has not accomplished." << endl;
+                    cout << A.Det() << endl;;
                     break;
                 case 'd':
                     menu2();
