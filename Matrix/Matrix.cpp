@@ -14,7 +14,7 @@ Matrix Matrix::Transp() const
     return z;
 }
 
-Matrix &Matrix::operator*(const Matrix &tm) const
+Matrix Matrix::operator*(const Matrix &tm) const
 {
     Matrix z(this->m, tm.n);
     Matrix trtm = tm.Transp();
@@ -44,7 +44,7 @@ Matrix &Matrix::operator*(const Matrix &tm) const
     return z;
 }
 
-Matrix &Matrix::operator*(const double &z) const
+Matrix Matrix::operator*(const double &z) const
 {
     Matrix p(m, n);
     for (int i = 0; i < m * n; i++)
@@ -54,7 +54,7 @@ Matrix &Matrix::operator*(const double &z) const
     return p;
 }
 
-Matrix &Matrix::operator+(const Matrix &tm) const
+Matrix Matrix::operator+(const Matrix &tm) const
 {
     Matrix z(this->m, this->n);
     if (this->m != tm.m || this->n != tm.n)
@@ -75,7 +75,7 @@ Matrix &Matrix::operator+(const Matrix &tm) const
     return z;
 }
 
-Matrix &Matrix::operator-(const Matrix &tm) const
+Matrix Matrix::operator-(const Matrix &tm) const
 {
     Matrix z(this->m, this->n);
     if (this->m != tm.m || this->n != tm.n)
@@ -145,7 +145,7 @@ Matrix Matrix::TriangMat() const
     return tm;
 }
 
-Matrix Matrix::Reverse() const
+Matrix Matrix::Inverse() const
 {
     Matrix tm = *this;
     Matrix unit(m,n);

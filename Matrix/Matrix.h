@@ -105,14 +105,14 @@ class Matrix
         }
     }
 
-    Matrix &operator*(const double &z) const;
-    Matrix &operator*(const Matrix &rm) const;
+    Matrix operator*(const double &z) const;
+    Matrix operator*(const Matrix &rm) const;
 
-    Matrix &operator+(const Matrix &z) const;
-    Matrix &operator-(const Matrix &z) const;
+    Matrix operator+(const Matrix &z) const;
+    Matrix operator-(const Matrix &z) const;
 
     Matrix Transp() const;
-    Matrix Reverse() const;
+    Matrix Inverse() const;
 
     Matrix TriangMat() const;
     double Det(const Matrix &tm);
