@@ -200,9 +200,9 @@ Matrix Matrix::Inverse() const
             }
             if (fst_0)
             {
-                for (int r = 0; r < n; r++)
+                for (int r = i+1; r < m; r++)
                 {
-                    if (tm.at(i, r) != 0)
+                    if (tm.at(r, i) != 0)
                     {
                         ftnz = r;
                         break;
@@ -213,8 +213,8 @@ Matrix Matrix::Inverse() const
             {
                 for (int r = 0; r < m; r++)
                 {
-                    tm.a[r * n + i] += tm.at(r, ftnz);
-                    unit.a[r * n + i] += unit.at(r, ftnz);
+                    tm.a[i * n + r] += tm.at(ftnz, r);
+                    unit.a[i * n + r] += unit.at(ftnz, r);
                 }
             }
             else if (fst_0)
