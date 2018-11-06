@@ -6,5 +6,7 @@
         "exception": "cpp",
         "stdexcept": "cpp",
         "type_traits": "cpp"
-    }
+    },
+    "C_Cpp.dimInactiveRegions": false,
+    "C_Cpp.errorSquiggles": "Disabled"
 }

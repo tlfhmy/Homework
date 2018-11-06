@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <cmath>
-#define Esp 10e-8
+const double Esp = 1e-8;
 class Matrix
 {
   private:
@@ -72,7 +72,7 @@ class Matrix
     {
         if (i < 0 || j < 0 || i > m || j > n)
         {
-            //throw std::range_error("Element which you want to access does NOT EXIST!!");
+            throw std::range_error("Element which you want to access does NOT EXIST!!");
         }
         return a[i * n + j];
     };
