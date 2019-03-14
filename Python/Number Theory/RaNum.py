@@ -95,6 +95,9 @@ class RaNum(object):
         self.simplify()
         return self
 
+    def __eq__(self, v):
+        return (self.x == v.x) and (self.y == v.y)
+
     def __int__(self):
         return self.x // self.y
     
