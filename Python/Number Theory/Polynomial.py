@@ -10,6 +10,13 @@ class Polynomial(object):
                     print("All elements should be Rational Number!")
                     return
             self.x = list(x)
+        elif type(x) == int:
+            assert(x >= 0)
+            tmp = []
+            for i in range(0, x+1):
+                tmp.append(RaNum(0,1))
+            tmp[-1] = RaNum(1,1)
+            self.x = tmp
         else:
             print("Must use tuple or list type to initial Polynomial.")
             return
@@ -47,7 +54,7 @@ class Polynomial(object):
     
     def __sub__(self, v):
         assert type(v) == Polynomial
-        tmp = -v + self
+        tmp = self + (-v)
         tmp.Recom()
         return tmp
 
@@ -61,19 +68,21 @@ class Polynomial(object):
     def __mul__(self, v):
         assert (type(v) == Polynomial) or (type(v) == RaNum)
         if type(v) == Polynomial:
-            tf = [RaNum(0,1)] * max(len(self.x), len(v.x))
-            tg = deepcopy(tf)
-            th = deepcopy(tf)
+            keeps = [RaNum()] * (2*(len(self.x)+len(v.x)))
+            keepv = deepcopy(keeps)
+            tmp = [RaNum()] * (len(self.x)+len(v.x))
             for i in range(0,len(self.x)):
-                tf[i] = (self.x)[i]
-            for i in range(0, len(v.x)):
-                tg[i] = (v.x)[i]
-            for i in range(0, len(tf)):
-                for j in range(0, i):
-                    th[i] += tf[j] * tg[i-j]
-            tmp = Polynomial(th)
-            tmp.Recom()
-            return tmp
+                keeps[i] = (self.x)[i]
+            for i in range(0,len(v.x)):
+                keepv[i] = (v.x)[i]
+            for i in range(0,(len(self.x)+len(v.x))):
+                val = RaNum()
+                for j in range(0,i+1):
+                    val += keeps[j]*keepv[i-j]
+                tmp[i] = val
+            tmppol = Polynomial(tmp)
+            tmppol.Recom()
+            return tmppol
         else:
             tmp = deepcopy(self)
             for i in range(0,len(tmp.x)):
@@ -89,25 +98,42 @@ class Polynomial(object):
         assert type(v) == Polynomial
         assert not(v.zeropoly())
         if len(self.x) < len(v.x):
-            tmax = deepcopy(v)
-            tmin = deepcopy(self)
+            return self
         else:
-            tmax = deepcopy(self)
-            tmin = deepcopy(v)
-        tmax.Recom()
-        tmin.Recom()
-        tp = deepcopy(tmin)
-        n = len(tmax.x) - len(tmin.x)
-        while n != 0:
-            tmin.x.insert(0,RaNum(0,1))
-            n -= 1
-        fac = (tmax.x)[-1] / (tmin.x)[-1]
-        tmax = tmax - tmin * fac
-        tmax.Recom()
-        if len(tmax.x) >= len(tp.x):
-            tmax = tmax % tp
-        return tmax
-    
+            t1 = deepcopy(self)
+            t2 = deepcopy(v)
+            n = int(len(self.x) - len(v.x))
+            t2 *= Polynomial(n)
+            fac = (t1.x)[-1] / (t2.x)[-1]
+            cong = t1 - t2*fac
+            if (len(cong.x) >= len(v.x)) and (len(cong.x) != 1):
+                cong = cong % v
+            return cong 
+
+    def __floordiv__(self, v):
+        assert type(v) == Polynomial
+        assert not(v.zeropoly())
+        if len(self.x) < len(v.x):
+            return Polynomial([RaNum()])
+        else:
+            t1 = deepcopy(self)
+            t2 = deepcopy(v)
+            n = int(len(self.x) - len(v.x))
+            t2 *= Polynomial(n)
+            fac = (t1.x)[-1] / (t2.x)[-1]
+            fact = Polynomial(n)*fac
+
+            cong = t1 - t2*fac
+            if (len(cong.x) >= len(v.x)) and (len(cong.x) != 1):
+                fact += (cong // v)
+            return fact
+
+    def __eq__(self, v):
+        assert type(v) == Polynomial
+        self.Recom()
+        v.Recom()
+        return self.x == v.x
+
     def zeropoly(self):
         if (len(self.x) == 1) and ((self.x)[0]).iszero():
             return True
@@ -115,7 +141,7 @@ class Polynomial(object):
             return False
 
     def Recom(self):
-        if (self.x)[-1].iszero():
+        if (self.x)[-1].iszero() and (len(self.x) > 1):
             del (self.x)[-1]
             self.Recom()
         return
@@ -136,3 +162,16 @@ class Polynomial(object):
 
     def __repr__(self):
         return str(self)
+
+def polygcd(a, b):
+    assert type(a) == Polynomial and type(b) == Polynomial
+    if len(a.x) >= len(b.x):
+        tmax = deepcopy(a)
+        tmin = deepcopy(b)
+    else:
+        tmax = deepcopy(b)
+        tmin = deepcopy(a)
+    if (tmax % tmin) == Polynomial([RaNum()]):
+        return tmin
+    else:
+        return polygcd(tmin, tmax % tmin)
