@@ -16,7 +16,7 @@ print(fb)
 print("fa+fb",fa+fb)
 print("fa-fb",fa-fb)
 print("fa*fb",fa*fb)
-print("fa'%'fa",fa%fb)
+print("fa%fa",fa%fb)
 print("fa//fb",fa//fb)
 
 #print(fa % fb)
