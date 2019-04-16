@@ -5,6 +5,7 @@ from math import fabs
 rootWindow = Tk()
 rootWindow.title("Triangle")
 rootWindow.geometry("800x600")
+rootWindow.update()
 
 points = []
 

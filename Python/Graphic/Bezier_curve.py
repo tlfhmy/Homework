@@ -73,6 +73,7 @@ def onClick(e):
         (e.x, e.y-8), (e.x, e.y+8),
         fill="red", width=2
     )
+    onDraw()
 
 drawArea.bind("<Button-1>", onClick)
 
