@@ -80,7 +80,7 @@ create_coord(392,260,784,520)
 #drawArea.create_rectangle(1,1,20,20,fill="green")
 
 points = []
-N = 1500
+N = 5000
 for i in range(0,N):
     xi = -5.+10/N*i
     yi = xi**2
