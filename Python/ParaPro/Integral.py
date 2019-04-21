@@ -77,7 +77,6 @@ create_coord(392,0,784,260)
 create_coord(0,260,392,520)
 create_coord(392,260,784,520)
 
-#drawArea.create_rectangle(1,1,20,20,fill="green")
 
 points = []
 N = 5000
