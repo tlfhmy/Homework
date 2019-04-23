@@ -98,9 +98,9 @@ create_coord(392,0,784,260)
 create_coord(0,260,392,520)
 create_coord(392,260,784,520)
 
-#drawArea.create_rectangle(1,1,20,20,fill="green")
 
 points = []
+<<<<<<< HEAD
 N = 1000
 wait_time = 0.01
 
@@ -110,6 +110,9 @@ def dwait(wt):
     else:
         sleep(wt)
 
+=======
+N = 5000
+>>>>>>> 7295f27573a95f88af51d7920046cbd1d0ee6a2d
 for i in range(0,N):
     xi = xmin+(xmax - xmin)/N*i
     yi = function(xi)
