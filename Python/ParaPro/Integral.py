@@ -1,9 +1,30 @@
 from threading import Thread
 from time import sleep
 import tkinter as tk
-from tkinter import Canvas    
+from tkinter import Canvas
+from math import sin,cos,pi,exp,sqrt
+
+xmin = -sqrt(pi)
+xmax = sqrt(pi)
+
 def function(x):
-    return x**2
+    return exp(-x**2)
+
+def find_range():
+    ymin = function(xmin)
+    ymax = function(xmin)
+    step = (xmax - xmin) / 5000
+    for i in range(0,5000):
+        fva = function(xmin + i*step)
+        if fva <= ymin:
+            ymin = fva
+        if fva >= ymax:
+            ymax = fva
+    return max(abs(ymin), abs(ymax))
+
+
+ymax = find_range()
+ymin = -ymax
 
 def trancor(a,b,c,d):
     return ((c-d)/(a-b), (a*d-b*c)/(a-b))
@@ -80,17 +101,34 @@ create_coord(392,260,784,520)
 #drawArea.create_rectangle(1,1,20,20,fill="green")
 
 points = []
-N = 1500
+N = 1000
+wait_time = 0.01
+
+def dwait(wt):
+    if wt < 1e-8:
+        return
+    else:
+        sleep(wt)
+
 for i in range(0,N):
-    xi = -5.+10/N*i
-    yi = xi**2
+    xi = xmin+(xmax - xmin)/N*i
+    yi = function(xi)
     points.append((xi, yi))
 
 integral = 0.0
 
+
+x_coordgap = (xmax - xmin) / 20.
+y_coordgap = (ymax - ymin) / 20.
+
+x1 = xmin - x_coordgap
+x2 = xmax + x_coordgap
+y1 = ymin - y_coordgap
+y2 = ymax + y_coordgap
+
 def part1():
-    tpx = trancor(-5,5,15,392-15)
-    tpy = trancor(-25,25,260-5,5)
+    tpx = trancor(x1,x2,15,392-15)
+    tpy = trancor(y1,y2,260-5,5)
     for i in range(0,N//4):
         if i < N-1:
             drawArea.create_line(
@@ -102,18 +140,18 @@ def part1():
     for i in range(0,N//4):
         if i < N-1:
             global integral
-            integral += 10/N*points[i][1]
+            integral += (xmax-xmin)/N*points[i][1]
             drawArea.create_rectangle(
                 tpx[0]*points[i][0]+tpx[1], tpy[0]*points[i][1] + tpy[1],
                 tpx[0]*points[i+1][0]+tpx[1], tpy[0]*0 + tpy[1],
                 fill="green", width=0
             )
-            sleep(0.0005)
+            dwait(wait_time)
             lValue.configure(text=str(integral)[0:7])
 
 def part2():
-    tpx = trancor(-5,5,392+15,784-15)
-    tpy = trancor(-25,25,260-5,5)
+    tpx = trancor(x1,x2,392+15,784-15)
+    tpy = trancor(y1,y2,260-5,5)
     for i in range(N//4,N//2):
         if i < N-1:
             drawArea.create_line(
@@ -125,18 +163,18 @@ def part2():
     for i in range(N//4,N//2):
         if i < N-1:
             global integral
-            integral += 10/N*points[i][1]
+            integral += (xmax-xmin)/N*points[i][1]
             drawArea.create_rectangle(
                 tpx[0]*points[i][0]+tpx[1], tpy[0]*points[i][1] + tpy[1],
                 tpx[0]*points[i+1][0]+tpx[1], tpy[0]*0 + tpy[1],
                 fill="green", width=0
             )
-            sleep(0.0005)
+            dwait(wait_time*2)
             lValue.configure(text=str(integral)[0:7])
 
 def part3():
-    tpx = trancor(-5,5,15,392-15)
-    tpy = trancor(-25,25,520-5,260+5)
+    tpx = trancor(x1,x2,15,392-15)
+    tpy = trancor(y1,y2,520-5,260+5)
     for i in range(N//2,N*3//4):
         if i < N-1:
             drawArea.create_line(
@@ -148,18 +186,18 @@ def part3():
     for i in range(N//2,N*3//4):
         if i < N-1:
             global integral
-            integral += 10/N*points[i][1]
+            integral += (xmax-xmin)/N*points[i][1]
             drawArea.create_rectangle(
                 tpx[0]*points[i][0]+tpx[1], tpy[0]*points[i][1] + tpy[1],
                 tpx[0]*points[i+1][0]+tpx[1], tpy[0]*0 + tpy[1],
                 fill="green", width=0
             )
-            sleep(0.0005)
+            dwait(wait_time*4)
             lValue.configure(text=str(integral)[0:7])
 
 def part4():
-    tpx = trancor(-5,5,392+15,784-15)
-    tpy = trancor(-25,25,520-5,260 + 5)
+    tpx = trancor(x1,x2,392+15,784-15)
+    tpy = trancor(y1,y2,520-5,260 + 5)
     for i in range(N*3//4,N):
         if i < N-1:
             drawArea.create_line(
@@ -171,13 +209,13 @@ def part4():
     for i in range(N*3//4,N):
         if i < N-1:
             global integral
-            integral += 10/N*points[i][1]
+            integral += (xmax-xmin)/N*points[i][1]
             drawArea.create_rectangle(
                 tpx[0]*points[i][0]+tpx[1], tpy[0]*points[i][1] + tpy[1],
                 tpx[0]*points[i+1][0]+tpx[1], tpy[0]*0 + tpy[1],
                 fill="green", width=0
             )
-            sleep(0.0005)
+            dwait(wait_time*8)
             lValue.configure(text=str(integral)[0:7])
 
 t1 = Thread(target=part1)
