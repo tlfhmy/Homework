@@ -8,7 +8,7 @@ xmin = -5
 xmax = 5
 
 def function(x):
-    return cos(x**2) + sin(x/2)
+    return 1./(1.0*(2.0*3.1415926)**0.5)*(2.718281)**(-(x-1.0)**2.0/(2.0*1.5**2.0))
 
 def find_range():
     ymin = function(xmin)
